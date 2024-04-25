@@ -1,0 +1,44 @@
+{
+    "index": {
+        "number": 3,
+        "style": "full",
+        "color": "black"
+    },
+    "n1": {
+        "id": 1,
+        "name": " I Kissed A Girl",
+        "desc": "trata sobre el despecho de una chica por besar a otra chica, esperando que su novio no se entere",
+        "patch": "./songs/i kiss.m4a",
+        "group": 1,
+        "singer": "Katy Perry",
+        "gender": "electro swim",
+        "self": "./self/i kiss.m4a",
+        "upload": "02 del 2 del 2024",
+        "img": "./img/i kiss.png"
+    },
+    "n2": {
+        "id": "1",
+        "name": "Amplify this melodie",
+        "desc": "cancion de brawl stars ",
+        "patch": "./songs/Amplify this Melodie.m4a",
+        "group": "1",
+        "singer": "Katy Perry",
+        "gender": "sensillo",
+        "self": "./self/i kiss.m4a",
+        "upload": "02 del 2 del 2024",
+        "img": "./img/Captura de pantalla 2024-03-29 135057.png"
+    },
+    "n3": {
+        "id": "1",
+        "name": "D12 - My Band ft. Cameo ",
+        "desc": "this kids dont even know the name of my band",
+        "patch": "./songs/D12 - My Band ft. Cameo (Official Music Video).m4a",
+        "group": "1",
+        "singer": "eminem",
+        "gender": "rap",
+        "self": "./self/i kiss.m4a",
+        "upload": "07 del 4 del 2024",
+        "img": "./img/Captura de pantalla 2024-04-07 220024.png"
+    }
+
+}
