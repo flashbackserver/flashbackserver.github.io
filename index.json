@@ -8,13 +8,13 @@
         "id": 1,
         "name": " I Kissed A Girl",
         "desc": "tu ru tu, tu tum pudum, tu ru, tu waw!",
-        "patch": "./songs/1.m4a",
+        "patch": "./videoplayback.m4a",
         "group": 1,
         "singer": "no singer",
         "gender": "electro swim",
-        "self": "./self/1.m4a",
+        "self": "./self/videoplayback.m4a",
         "upload": "02 del 2 del 2024",
-        "img": "./img/1.m4a"
+        "img": "./hqdefault.jpg"
     }
 
 }
