@@ -6,6 +6,8 @@ self.addEventListener("install", e => {
 
         return cache.addAll([
             "/",
+            "/renderer.js",
+            "/reproductor.js",
             "/mods/Flash Back.png",
             "./css/bootstrap.min.css"
         ])

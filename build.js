@@ -1,6 +1,4 @@
-console.log("compilando archivo " + 'public\download.js');
-//file: public\download.js
-
+defaults()
 async function saveM4aToLocalStorage(url, key) {
 
     try {
@@ -9,18 +7,13 @@ async function saveM4aToLocalStorage(url, key) {
       const base64 = await encodeArrayBufferInBase64(arrayBuffer);
       localStorage.setItem(key,"no data")
       AlmacenarContacto(key,base64)
-      console.log('Archivo M4A guardado en indexDB con la clave:', key);
+      internal('Archivo M4A guardado en indexDB con la clave:', key);
     } catch (error) {
       console.error('Error al guardar el archivo M4A en indexDB:', error);
     }
   }
   
-  if (localStorage.getItem("server") == null) {
-    localStorage.setItem("server","./index.json")
-}
-if (localStorage.getItem("serverurl") == null) {
-  localStorage.setItem("serverurl","./")
-}
+ 
   function encodeArrayBufferInBase64(arrayBuffer) {
     const chunkSize = 0x8000; // 32KB
     const chunks = [];
@@ -34,10 +27,6 @@ if (localStorage.getItem("serverurl") == null) {
   }
   
 
-
-//end
-console.log("compilando archivo " + 'public\interposer.js');
-//file: public\interposer.js
 if ('getBattery' in navigator) {
     navigator.getBattery().then(function(battery) {
       // Obtenemos información sobre la batería
@@ -45,8 +34,8 @@ if ('getBattery' in navigator) {
       var charging = battery.charging; // Booleano: indica si el dispositivo está conectado a la corriente o no
   
       // Mostramos información en la consola
-      console.log("Nivel de batería: " + level + "%");
-      console.log("Cargando: " + (charging ? "Sí" : "No"));
+      internal("Nivel de batería: " + level + "%");
+      internal("Cargando: " + (charging ? "Sí" : "No"));
   
       // Haces lo que necesites con esta información
       if (charging) {
@@ -56,15 +45,11 @@ if ('getBattery' in navigator) {
       }
     });
   } else {
-    console.log("La API de Battery Status no está disponible en este navegador.");
+    internal("La API de Battery Status no está disponible en este navegador.");
   }
 
 
 
-
-//end
-console.log("compilando archivo " + 'public\reproductor.js');
-//file: public\reproductor.js
 var audioPlayer = document.getElementById('rep');
 var volumeSlider
 var seekSlider = document.getElementById('timerP');
@@ -93,14 +78,14 @@ function base64ToBlob(base64, mimeType) {
 function togglePlayPause() {
     if (audioPlayer.paused) {
         audioPlayer.play();
-        console.log("playing!");
+        internal("playing!");
         pb.src = "./mods/play.png"
 
     } else {
         audioPlayer.pause();
 
         pb.src = "./mods/pause.png"
-        console.log('paused!');
+        internal('paused!');
     }
 }
 function set(link, id, title) {
@@ -112,7 +97,7 @@ function set(link, id, title) {
         reproducirAudio(link)
     } else {
         audioPlayer.src = link;
-        console.log("try to load from internet: " + id);
+        internal("try to load from internet: " + id);
         changeWebsiteIcon(document.getElementById(id).src);
         document.getElementById("title_bar").innerText = title
         audioPlayer.poster = document.getElementById(id).src;
@@ -124,21 +109,21 @@ function set(link, id, title) {
 audioPlayer.addEventListener('timeupdate', () => {
     seekSlider.max = audioPlayer.duration;
    seekSlider.value = audioPlayer.currentTime;
-    console.log("time now: " + audioPlayer.currentTime);
+    internal("time now: " + audioPlayer.currentTime);
 });
 
 // Actualizar la posición de reproducción cuando cambia el valor del slider
 function updateSeek() {
-    console.log(Number(seekSlider.value));
-    console.log(audioPlayer.currentTime);
+    internal(Number(seekSlider.value));
+    internal(audioPlayer.currentTime);
     audioPlayer.currentTime = Number(seekSlider.value) 
-    console.log("Time update to: " + audioPlayer.currentTime);
+    internal("Time update to: " + audioPlayer.currentTime);
 }
 
 
 
 function reproducirAudio(link) {
-    console.log('Trying to load from data base')
+    internal('Trying to load from data base')
     const request = window.indexedDB.open('audioDatabase', 1);
   
     request.onsuccess = function(event) {
@@ -160,7 +145,7 @@ function reproducirAudio(link) {
 
           audioElement.play();
         } else {
-          console.log('El audio no existe en la base de datos');
+          internal('El audio no existe en la base de datos');
         }
       };
     };
@@ -169,11 +154,8 @@ function reproducirAudio(link) {
       console.error('Error al abrir la base de datos:', event.target.errorCode);
     };
   }
-
-//end
-console.log("compilando archivo " + 'public\favorite.js');
-//file: public\favorite.js
 function favorite(link) {
+    link = link.replace("./",localStorage.getItem("serverurl"))
     //iniciar base de favoritos
     let icon = document.getElementById("favorite_icon").src
     if (localStorage.getItem("favorite") == null) {
@@ -181,14 +163,14 @@ function favorite(link) {
         localStorage.setItem("favorite", `{"fav":["./songs/i kiss.m4a"]}`)
     }
     let base = JSON.parse(localStorage.getItem("favorite"))
-    console.log(base.fav)
-    console.log(link);
-    console.log(base.fav.includes(link))
+    internal(base.fav)
+    internal(link);
+    internal(base.fav.includes(link))
     if (base.fav.includes(link)) {
-        console.log("the song is into favorite");
+        internal("the song is into favorite");
         document.getElementById("favorite_icon").src = "./mods/favorite_full.png"
     } else {
-        console.log("the song is not into favorite");
+        internal("the song is not into favorite");
         document.getElementById("favorite_icon").src = "./mods/favorite.png"
     }
     document.getElementById("favorite").setAttribute("onClick", "javascript:favorite_set('" + link + "');");
@@ -200,7 +182,7 @@ function favorite_set(link) {
     let base = JSON.parse(localStorage.getItem("favorite"))
     if (!base.fav.includes(link)) {
         base.fav.push(link)
-        console.log(link + "is now in favorite");
+        internal(link + "is now in favorite");
         localStorage.setItem("favorite", JSON.stringify(base))
         document.getElementById("favorite_icon").src = "./mods/favorite_full.png"
     } else {
@@ -210,20 +192,16 @@ function favorite_set(link) {
         }
         localStorage.setItem
         ("favorite", JSON.stringify(base))
-        console.log(link + "is nown`t in favorite");
+        internal(link + "is nown`t in favorite");
         document.getElementById("favorite_icon").src = "./mods/favorite.png"
     }
 }
 
 
-
-//end
-console.log("compilando archivo " + 'public\filter.js');
-//file: public\filter.js
 let compass = "none"
 //se usa cuando quieres llamar a fenderizar con algun atributo
 function filter(requisito) {
-    console.log("filter mode: " + requisito);
+    internal("filter mode: " + requisito);
     if(requisito=="total"){
         compass = "none"
     }
@@ -235,12 +213,13 @@ function filter(requisito) {
 //se usa cada ciclo que renderizar esta en funcion(si son 3 canciones, 3 siclos) y se usa para filtrar
 function indicator(comparador) {
     if (compass == "none") {
-        console.log("is using none")
+        internal("is using none")
         return true
     }
     if ("fav" == compass) {
         let base = JSON.parse(localStorage.getItem("favorite"))
-        console.log("is using fav")
+        internal("is using fav")
+        comparador = comparador.replace("./",localStorage.getItem("serverurl"))
         if (base.fav.includes(comparador)) {
             return true
         } else {
@@ -248,7 +227,8 @@ function indicator(comparador) {
         }
     }
     if ("dwn" == compass) {
-        console.log("is using dwn")
+        internal("is using dwn")
+        comparador = comparador.replace("./",localStorage.getItem("serverurl"))
         if (localStorage.getItem(comparador) == null) {
             return false
         } else {
@@ -258,11 +238,7 @@ function indicator(comparador) {
     if ("playlist1" == compass) {
         return true
     }
-}
-//end
-console.log("compilando archivo " + 'public\ajustes.js');
-//file: public\ajustes.js
-function cerrar() {
+}function cerrar() {
     document.getElementById("ventana-flotante").style.display = "none";
 }
 
@@ -290,11 +266,7 @@ function openset() {
 
     // Agregar el nuevo párrafo al div
     miDiv.appendChild(nuevoParagrafo);
-};
-//end
-console.log("compilando archivo " + 'public\offlinemode.js');
-//file: public\offlinemode.js
-async function donwload() {
+};async function donwload() {
   await fetch('./cachefiles.json')
     .then(response => response.json())
     .then(data => {
@@ -314,7 +286,7 @@ function guardarEnCache(url) {
       .then(cache => {
         caches.match(url).then(b => {
           if (b !== undefined) {
-            console.log("ya esta en cache");
+            internal("ya esta en cache");
             return
           }
           // Realiza una solicitud fetch a la URL
@@ -324,7 +296,7 @@ function guardarEnCache(url) {
               const cacheResponse = response.clone();
               // Agrega la respuesta al caché
               cache.put(url, cacheResponse);
-              console.log(`${url} guardado en el caché`);
+              internal(`${url} guardado en el caché`);
             })
             .catch(error => {
               console.error('Error al guardar en el caché:', error);
@@ -345,17 +317,13 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker
     .register('/sw.js')
     .then(function(registration) {
-      console.log('Service Worker registrado exitosamente:', registration);
+      internal('Service Worker registrado exitosamente:', registration);
     })
     .catch(function(error) {
-      console.log('Error al registrar el Service Worker:', error);
+      internal('Error al registrar el Service Worker:', error);
     });
 }
 
-
-//end
-console.log("compilando archivo " + 'public\BD.js');
-//file: public\BD.js
 var bd;
 function IniciarBaseDatos(){
 var solicitud = indexedDB.open("Datos-De-Contacto");
@@ -397,13 +365,9 @@ window.addEventListener("load", IniciarBaseDatos);
 
 function MostrarContactos(evento) {
         audioPlayer.src = evento.target.result.value.data;
-        console.log(evento.target.result.value);
+        internal(evento.target.result.value);
         audioPlayer.play();
-}
-//end
-console.log("compilando archivo " + 'public\renderer.js');
-//file: public\renderer.js
-function reload(url) {
+}function reload(url) {
   return new Promise((resolve, reject) => {
     fetch(url)
       .then(response => {
@@ -414,6 +378,7 @@ function reload(url) {
       })
       .then(jsonData => {
         resolve(jsonData);
+        populateServerOptions(url)
       })
       .catch(error => {
         reject(error);
@@ -421,6 +386,11 @@ function reload(url) {
   });
 }
 function press(link,id,title) {
+  if (internet == false) {
+    document.getElementById("internetstatus").style.display="flex"
+  }
+  link = link.replace("./",localStorage.getItem("serverurl"))
+  internal("link> "+link)
   if (localStorage.getItem(link) == null) {
     return `<button type="button" class="btn" style="background-color:greenyellow" onclick="set('${link.replace("./",localStorage.getItem("serverurl"))}','${id}')">reproducir</button>
             <button type="button" class="btn" style="border-color:white; color:white" onclick="download('${link.replace("./",localStorage.getItem("serverurl"))}')">descargar</button>`
@@ -460,47 +430,41 @@ function changeWebsiteIcon(iconUrl) {
 
 // Llamar a la función con la URL del nuevo ícono PNG
 
-
-//end
-console.log("compilando archivo " + 'public\reload.js');
-//file: public\reload.js
 function reloads() {
-    
-    let cacheurl = localStorage.getItem("server")
-    caches.open('mi-cache')
-  .then(cache => {
-    // Eliminar la entrada de la caché para la ruta '/index.json'
-    cache.delete('index.json')
-      .then(success => {
-        reload(localStorage.getItem("server"),).then(objetoJSON=>{
-            renderizar(objetoJSON)
-          })
-        
-      })
-      .catch(error => {
-        console.error('Error al eliminar el elemento "/index.json" de la caché:', error);
-      });
-  })
-  .catch(error => {
-    console.error('Error al abrir la caché predeterminada:', error);
-  });
-}
-//end
-console.log("compilando archivo " + 'public\chamoy.js');
-//file: public\chamoy.js
+  localStorage.setItem("serverurl", document.getElementById("server").value)
 
+  let champoo = String(document.getElementById("server").value)
+  if (champoo.includes("/index.json")) {
+    localStorage.setItem("server", document.getElementById("server").value)
+  } else {
+    localStorage.setItem("server", document.getElementById("server").value + "/index.json")
+
+  }
+  if (champoo.includes("/index.json")) {
+    localStorage.setItem("serverurl", champoo.replace("/index.json", "/"))
+
+  } else {
+    localStorage.setItem("serverurl", document.getElementById("server").value)
+
+  }
+  let cacheurl = localStorage.getItem("server")
+  reload(localStorage.getItem("server")).then(objetoJSON => {
+    renderizar(objetoJSON)
+  })
+}
 let exept = []
 
 function renderizar(objetoJSON, esbuscar, clave) {
+  document.getElementById("internetstatus").style.display="none"
   exept = []
   localStorage.setItem("small","true")
   if (localStorage.getItem("lowmode") == null) {
     localStorage.setItem("lowmode", "phone")
   }
   let number
-  console.log(objetoJSON["index"].number);
+  internal(objetoJSON["index"].number);
   // Crear un nuevo div
-  console.log(objetoJSON.index.number)
+  internal(objetoJSON.index.number)
   var numeroDeRepeticiones = objetoJSON.index.number;
   let masterDiv = document.getElementById("masterdiv")
   if (masterDiv) {
@@ -528,7 +492,7 @@ function renderizar(objetoJSON, esbuscar, clave) {
     nuevoDiv.className = "row row-cols-1 row-cols-md-3 g-4";
     nuevoDiv.id = "card-m"+number
     if (indicator(objetoJSON['n' + number].patch) !== false) {
-      console.log("coninciden");
+      internal("coninciden");
  if (localStorage.getItem("lowmode") == "phone") {
         document.getElementById("nav").style.display = "none"
     document.getElementById("navphone").style.display = "block"
@@ -543,6 +507,7 @@ function renderizar(objetoJSON, esbuscar, clave) {
                     <p class="card-text">
                   </div>
                 </div>`;
+                
       }
         
       // Agregar el nuevo div al cuerpo del documento
@@ -564,7 +529,7 @@ function aft(numeroDeRepeticiones,objetoJSON) {
     for (var i = 0; i < numeroDeRepeticiones; i++) {
       number = Number(i) + 1
       if (!exept.includes("n" + number)) {
-      console.log("creando numero "+number);
+      internal("creando numero "+number);
       document.getElementById("card-" + number + "n").innerText = objetoJSON["n" + number].name
       document.getElementById("card-" + number + "d").innerText = objetoJSON["n" + number].desc
       document.getElementById("card-" + number + "u").innerText = objetoJSON["n" + number].upload
@@ -573,6 +538,7 @@ function aft(numeroDeRepeticiones,objetoJSON) {
       }
       if (objetoJSON.index.style == "full") {
         guardarEnCache(objetoJSON["n" + number].img)
+        internal("img link> "+objetoJSON["n" + number].img.replace("./",localStorage.getItem("serverurl")) );
         document.getElementById("card-" + number + "img").src = objetoJSON["n" + number].img.replace("./",localStorage.getItem("serverurl")) 
       }
   
@@ -581,20 +547,11 @@ function aft(numeroDeRepeticiones,objetoJSON) {
   }
 }
 
-
-//end
-console.log("compilando archivo " + 'public\vercion.js');
-//file: public\vercion.js
-let vercion = "9" //vercion del sistema
+let vercion = "10" //vercion del sistema
 
 localStorage.setItem("vercion",vercion)
-document.getElementById("v").innerText = "vercion>"+vercion+"> developer build"
+document.getElementById("v").innerText = "vercion>"+vercion+""
 document.getElementById("server").value = localStorage.getItem("server")
-document.getElementById("serverurl").value = localStorage.getItem("serverurl")
-
-//end
-console.log("compilando archivo " + 'public\downloader.js');
-//file: public\downloader.js
 function download(link) {
   const request = window.indexedDB.open('audioDatabase', 1);
 
@@ -627,7 +584,7 @@ function download(link) {
               reload(localStorage.getItem("server"),).then(objetoJSON=>{
                 renderizar(objetoJSON)
               })
-              console.log('Audio descargado y guardado en la base de datos');
+              internal('Audio descargado y guardado en la base de datos');
             };
 
             writeTx.onerror = function(error) {
@@ -636,7 +593,7 @@ function download(link) {
           })
           .catch(error => console.error('Error al descargar el audio:', error));
       } else {
-        console.log('El audio ya existe en la base de datos');
+        internal('El audio ya existe en la base de datos');
       }
     };
   };
@@ -644,11 +601,7 @@ function download(link) {
   request.onerror = function(event) {
     console.error('Error al abrir la base de datos:', event.target.errorCode);
   };
-}
-//end
-console.log("compilando archivo " + 'public\logotype.js');
-//file: public\logotype.js
-var chamoy
+}var chamoy
 window.onload = function () {
     document.getElementById("logo").style.opacity = 1
     setTimeout(() => {
@@ -667,5 +620,74 @@ window.onload = function () {
 
 
 
+function defaults() {
+  
 
-//end
+if (localStorage.getItem("server") == null) {
+    localStorage.setItem("server","http://localhost/index.json")
+}
+if (localStorage.getItem("serverurl") == null) {
+  localStorage.setItem("serverurl","http://localhost/")
+}
+if (localStorage.getItem("favorite") == null) {
+    localStorage.setItem("favorite",`{"fav":["weonao"]}`)
+  }
+  if (localStorage.getItem("serverlist") == null) {
+    localStorage.setItem("serverlist",`{"server":["http://localhost/index.json"]}`)
+  }
+
+}
+function internal(params) {
+  //lol XDDDDD
+}function populateServerOptions(url) {
+    
+    const serversElement = document.getElementById("servers");
+    const serverListJson = localStorage.getItem("serverlist");
+    internal("actualizando lista>> "+url);
+    if (serverListJson.includes(String(url)) == false) {
+        if (url == undefined) {
+            return
+        }
+        let templist = JSON.parse(serverListJson)
+        templist.server.push(String(url))
+        localStorage.setItem("serverlist",JSON.stringify(templist))
+        internal("nuevo server detectado");
+    }
+    const serverList = JSON.parse(serverListJson);
+
+    while (serversElement.firstChild) {
+        serversElement.removeChild(serversElement.firstChild);
+      }
+
+    if (serverList && serverList.server && Array.isArray(serverList.server)) {
+      // Iteramos sobre cada URL en serverList.server
+      serverList.server.forEach((url, index) => {
+        internal("url> "+url+" index> "+index);
+        // Creamos un elemento <option>
+        const option = document.createElement("option");
+        // Asignamos el valor del elemento <option>
+        option.value = url;
+        // Asignamos el texto del elemento <option>
+        option.text = `${index + 1}: ${url}`;
+         // Asumiendo que los índices comienzan en 1
+        if (url == document.getElementById("server").value) {
+            option.selected  = true
+        } 
+        
+  
+        // Agregamos el elemento <option> al elemento "servers"
+        serversElement.appendChild(option);
+      });
+    } else {
+      console.error("El valor del localStorage 'serverlist' no es válido.");
+    }
+  }
+  
+  // Llamamos a la función para poblar las opciones del elemento "servers"
+  populateServerOptions();
+
+
+  function update_server() {
+    document.getElementById("server").value = document.getElementById("servers").value
+    reloads()
+  }

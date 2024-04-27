@@ -18,8 +18,12 @@
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="navbar" style="display: none;">
       <div class="container-fluid justify-content-end">
+        <span class="badge" id="internetstatus" style="border-color:white; color:white">Sin conexion</span>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
           <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="color: azure;">menu</h5>
+        </button>
+        <button class="navbar-toggler"id="update" style=" display: none;">
+          <h5 class="offcanvas-title" id="new-vercion"  style="color: azure;"></h5>
         </button>
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" style="background-color: rgb(41, 40, 40)">
           <div class="offcanvas-header">
@@ -42,16 +46,19 @@
                 <a class="nav-link" href="#" onclick="filter('dwn')">Descargadas</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" >servidor interno(beta)</a>
+                <a class="nav-link" >servidor de archivos(beta)</a>
                 <input type="text" id="server" size="34">
               </li>
-              <li class="nav-item">
-                <a class="nav-link" >servidor de zd(beta)</a>
-                <input type="text" id="serverurl" size="34">
-              </li>
+              <br><br><br>
+              <select class="form-select" aria-label="Default select example" id="servers" onchange="update_server()">
+              </select>
               <br><br><br>
               <li class="nav-item">
-                <a class="nav-link" href="#" onclick="reloads()">Actualizar lista(se nesesita conexion a internet)</a>
+               <button onclick="reloads()" type="button" class="btn btn-primary">Actualizar lista</button>
+                <button onclick="reset()" type="button" class="btn btn-primary">recetear app</button>
+              </li>
+              <li class="nav-item">
+                
               </li>
               <li class="nav-item">
                 <p id="v" style="color: azure;"></p>
@@ -77,19 +84,10 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <button onclick="reset()" type="button" class="btn btn-primary">reset app</button>
+        <h1>parece que la app no se inicio correctamente</h1>
+        <button onclick="reset()" type="button" class="btn btn-primary">recetear app</button>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        </ul>
-        
-        <form class="d-flex" role="search" method="post" enctype="multipart/form-data" action="https://d5d2-2803-4320-5f4-6c00-871a-96f7-93f7-7d22.ngrok-free.app/">
-          <input type="range" id="timer" value="0" min="0" max="100" onchange="updateSeek()">
-          <p><button onclick="reset()" type="button" class="btn btn-primary">reset app</button></p>
-          <input type="range" min="0" max="100" value="100" step="1" id="volumen" />
-          <audio src="" id="rep" poster="./img/example.png"></audio>
-          <button type="button" class="btn btn-primary" onclick="togglePlayPause()" id="playbutton"><img width="64" id="playbuttonimg" src="./mods/play.png" alt=""></button>
-            <input type="file" name="archivo" required class="btn btn-success buttons files">
-            <button type="submit" class="btn btn-success buttons">Subir Archivo fbs</button>
-        </form>
+          <audio src="" id="rep" poster="./img/example.png"></audio>  
       </div>
     </div>
   </nav>
@@ -113,3 +111,4 @@
 
 <script src="./js/bootstrap.min.js"></script>
 <script src="build.js"></script>
+<script src="update.js"></script>
