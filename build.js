@@ -624,16 +624,16 @@ function defaults() {
   
 
 if (localStorage.getItem("server") == null) {
-    localStorage.setItem("server","http://localhost/index.json")
+    localStorage.setItem("server","https://flashbackserver.github.io/index.json")
 }
 if (localStorage.getItem("serverurl") == null) {
-  localStorage.setItem("serverurl","http://localhost/")
+  localStorage.setItem("serverurl","/https://flashbackserver.github.io/")
 }
 if (localStorage.getItem("favorite") == null) {
     localStorage.setItem("favorite",`{"fav":["weonao"]}`)
   }
   if (localStorage.getItem("serverlist") == null) {
-    localStorage.setItem("serverlist",`{"server":["http://localhost/index.json"]}`)
+    localStorage.setItem("serverlist",`{"server":["http://https://flashbackserver.github.io/index.json"]}`)
   }
 
 }
