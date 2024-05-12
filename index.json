@@ -16,5 +16,17 @@
         "upload": "02 del 2 del 2024",
         "img": "./hqdefault.jpg"
     }
+    "n2": {
+        "id": 2,
+        "name": "Donde te consigo",
+        "desc": "tu ru tu, tu tum pudum, tu ru, tu waw!",
+        "patch": "./donde te consigo.mp3",
+        "group": 1,
+        "singer": "gabriel",
+        "gender": "electro swim",
+        "self": "./self/videoplayback.m4a",
+        "upload": "12 del 5 del 2024",
+        "img": "./donde te consigo.png"
+    }
 
 }
